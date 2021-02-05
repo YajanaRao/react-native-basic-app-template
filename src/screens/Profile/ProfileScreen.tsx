@@ -1,11 +1,15 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { Avatar, Card, Input, ListItem, Text } from 'react-native-elements';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../recoil/atom';
 
 export interface ProfileProps {
 }
 
 function ProfileScreen({ navigation }: ProfileProps) {
+
+    const user = useRecoilState(userState);
     return (
         <ScrollView style={{ flex: 1 }}>
             <View style={{ alignItems: 'center', marginTop: 12 }}>
@@ -17,21 +21,15 @@ function ProfileScreen({ navigation }: ProfileProps) {
                             'https://picsum.photos/200',
                     }}
                 />
-                <Text h4 style={{ textAlign: "center" }} >Alexa</Text>
+                <Text h4 style={{ textAlign: "center" }} >{user[0].name}</Text>
 
             </View>
             <Card>
                 <Card.Title h4>Profile Details</Card.Title>
                 <Card.Divider />
                 <Input
-                    value="29-04-1998"
+                    value={user[0].dob}
                     label="Date of Birth"
-                    disabled={true}
-                    rightIcon={{ type: 'font-awesome', name: 'pencil' }}
-                />
-                <Input
-                    value="12345678"
-                    label="Account Number"
                     disabled={true}
                     rightIcon={{ type: 'font-awesome', name: 'pencil' }}
                 />

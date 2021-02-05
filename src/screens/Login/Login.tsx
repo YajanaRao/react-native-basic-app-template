@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, KeyboardAvoidingView, Keyboard, View, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import { Button, Input, Avatar, Text } from "react-native-elements";
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
-import { LoginManager } from 'react-native-fbsdk';
 import { Container } from '../../components/Container';
 import { styles } from './LoginStyles';
 import { useTheme } from '@shopify/restyle';
@@ -30,20 +28,7 @@ export function LoginScreen({ navigation, params }) {
     }, [user])
 
 
-    function handleFacebookLogin() {
-        LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends']).then(
-            function (result) {
-                if (result.isCancelled) {
-                    console.log('Login cancelled')
-                } else {
-                    console.log('Login success with permissions: ' + result.grantedPermissions.toString())
-                }
-            },
-            function (error) {
-                console.log('Login fail with error: ' + error)
-            }
-        )
-    }
+
 
     function login() {
         // if (!name) {
@@ -57,20 +42,11 @@ export function LoginScreen({ navigation, params }) {
     async function signIn() {
         try {
             setIsLoading(true);
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
+            const userInfo = {};
             setUser(userInfo);
             setIsLoading(false);
         } catch (error) {
-            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-                // user cancelled the login flow
-            } else if (error.code === statusCodes.IN_PROGRESS) {
-                // operation (e.g. sign in) is in progress already
-            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-                // play services not available or outdated
-            } else {
-                // some other error happened
-            }
+            console.log('error: ', error);
         }
     };
 
@@ -113,23 +89,6 @@ export function LoginScreen({ navigation, params }) {
                                     onPress={() => navigation.navigate("ForgotPassword")}>
                                     Forgot password ?
                             </Text>
-                                <Text h5 style={{ textAlign: "center", color: secondaryText }}> or</Text>
-                                <View style={{ justifyContent: "center", alignItems: "center", flexDirection: "row", marginVertical: 12 }}>
-                                    <GoogleSigninButton
-                                        size={GoogleSigninButton.Size.Icon}
-                                        color={GoogleSigninButton.Color.Dark}
-                                        onPress={signIn}
-                                        disabled={isLoading} />
-                                    <View style={{ width: 24 }} />
-                                    <Avatar
-                                        size="medium"
-                                        // rounded
-                                        icon={{ name: 'facebook', type: 'font-awesome' }}
-                                        onPress={handleFacebookLogin}
-                                        activeOpacity={0.7}
-                                        containerStyle={{ backgroundColor: "#4267B2", borderRadius: 2, elevation: 4, height: 40, width: 40 }}
-                                    />
-                                </View>
                             </View>
 
 

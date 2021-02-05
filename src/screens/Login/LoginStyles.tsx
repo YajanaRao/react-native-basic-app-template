@@ -33,11 +33,4 @@ export const styles = StyleSheet.create({
         fontFamily: 'Roboto-Medium',
         marginHorizontal: 4,
     },
-    googleSignIn: {
-        backgroundColor: "white",
-        height: 48,
-        width: 48,
-        overflow: "hidden",
-        borderRadius: 24,
-    }
 });
